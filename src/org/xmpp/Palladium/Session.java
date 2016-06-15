@@ -53,22 +53,22 @@ public class Session {
 	public static final String DEFAULT_CONTENT = "text/xml; charset=utf-8";
 	
 	// Maximum inactivity period
-	public static final int MAX_INACTIVITY = 60;
+	public static final int MAX_INACTIVITY = 120;
 	
 	// Maximum number of simultaneous requests allowed
 	public static final int MAX_REQUESTS = 5;
 	
 	// Maximum time to wait for XMPP server replies
-	public static final int MAX_WAIT = 300;
+	public static final int MAX_WAIT = 30;
 	
 	// Shortest polling period
-	public static final int MIN_POLLING = 2;
+	public static final int MIN_POLLING = 5;
 	
 	// Sleep time
-	private static final int READ_TIMEOUT = 1;
+	private static final int READ_TIMEOUT = 5;
 	
 	// Socket timeout
-	private static final int SOCKET_TIMEOUT = 6000;
+	private static final int SOCKET_TIMEOUT = 30000;
 	
 	// Default XMPP port to connect
 	public static final int DEFAULT_XMPPPORT = 5222;
@@ -319,7 +319,6 @@ public class Session {
 					PalladiumServlet.dbg("inQueue: " + inQueue, 2);
 					streamFeatures = inQueue.length() > 0;
 				}
-				
 				else {
 					PalladiumServlet.dbg("failed to get stream features", 2);
 					
@@ -340,7 +339,6 @@ public class Session {
 				
 				if (m.matches())
 					this.authid = m.group(1);
-				
 				else {
 					PalladiumServlet.dbg("failed to get authid", 2);
 					
@@ -375,6 +373,7 @@ public class Session {
 					catch (SAXException sex) {
 						try {
 							// Stream closed?
+							PalladiumServlet.dbg("SAXException",2);
 							doc = db.parse(new InputSource(new StringReader("<stream:stream>" + inQueue)));
 							this.terminate();
 						}
@@ -629,7 +628,7 @@ public class Session {
 	// Reads from socket
 	private String readFromSocket(long rid) throws IOException {
 		String retval = "";
-		char buf[] = new char[16];
+		char buf[] = new char[512];
 		int c = 0;
 		
 		Response r = this.getResponse(rid);
@@ -640,7 +639,7 @@ public class Session {
 				if (this.br.ready()) {
 					while (this.br.ready() && (c = this.br.read(buf, 0, buf.length)) >= 0)
 						retval += new String(buf, 0, c);
-						break;
+					break;
 				}
 				
 				else {
@@ -702,7 +701,7 @@ public class Session {
 				PalladiumServlet.dbg("Reinitializing Stream!", 2);
 				this.osw.write("<stream:stream to='" + this.to + "'" + appendXMLLang(this.getXMLLang()) + " xmlns='jabber:client' " + " xmlns:stream='http://etherx.jabber.org/streams'" + " version='1.0'" + ">");
 			}
-			
+			PalladiumServlet.dbg("Sending stanza:" + out,2);
 			this.osw.write(out);
 			this.osw.flush();
 		}
