@@ -319,7 +319,7 @@ public class Session {
 					PalladiumServlet.dbg("inQueue: " + inQueue, 2);
 					streamFeatures = inQueue.length() > 0;
 				}
-
+				
 				else {
 					PalladiumServlet.dbg("failed to get stream features", 2);
 					
@@ -340,7 +340,7 @@ public class Session {
 				
 				if (m.matches())
 					this.authid = m.group(1);
-
+				
 				else {
 					PalladiumServlet.dbg("failed to get authid", 2);
 					
@@ -630,7 +630,7 @@ public class Session {
 	// Reads from socket
 	private String readFromSocket(long rid) throws IOException {
 		String retval = "";
-		char buf[] = new char[512];
+		char buf[] = new char[2048];
 		int c = 0;
 		
 		Response r = this.getResponse(rid);
