@@ -1,4 +1,4 @@
-/*
+/**
  * PALLADIUM v1.4
  * Description: the servlet itself
  * Authors: Stefan Strigler, Vanaryon
