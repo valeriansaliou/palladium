@@ -1,4 +1,4 @@
- /*
+/*
  * PALLADIUM v1.4
  * Description: the servlet itself
  * Authors: Stefan Strigler, Vanaryon
@@ -246,9 +246,9 @@ public final class PalladiumServlet extends HttpServlet {
 									}
 									
 									// Check we have got to forward something to the XMPP server
-									if (rootNode.hasChildNodes() || sess.isReinit()) {
+									if (rootNode.hasChildNodes() || sess.isReinit())
 										sess.sendNodes(rootNode.getChildNodes());
-									}
+									
 									else {
 										// Too many empty requests? (DoS?)
 										long now = System.currentTimeMillis();
@@ -288,14 +288,12 @@ public final class PalladiumServlet extends HttpServlet {
 									NodeList nl = sess.checkInQ(rid);
 									
 									// Add items to response
-									if (nl != null) {
+									if (nl != null)
 										for (int i = 0; i < nl.getLength(); i++)
 											jresp.addNode(nl.item(i), "jabber:client");
-									}
 									
 									if (sess.streamFeatures) {
 										jresp.setAttribute("xmlns:stream", "http://etherx.jabber.org/streams");
-										//jresp.setAttribute("stream", sess.getSID());
 										
 										// Reset
 										sess.streamFeatures = false;
@@ -431,7 +429,6 @@ public final class PalladiumServlet extends HttpServlet {
 							
 							if (sess.streamFeatures) {
 								jresp.setAttribute("xmlns:stream", "http://etherx.jabber.org/streams");
-								//jresp.setAttribute("stream", String.valueOf(rid));
 								
 								// Reset
 								sess.streamFeatures = false;
