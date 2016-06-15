@@ -247,6 +247,7 @@ public final class PalladiumServlet extends HttpServlet {
 									}
 									
 									// Check we have got to forward something to the XMPP server
+									// Invoke on session restart
 									if (rootNode.hasChildNodes() || sess.isReinit())
 										sess.sendNodes(rootNode.getChildNodes());
 									

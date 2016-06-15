@@ -703,7 +703,7 @@ public class Session {
 				PalladiumServlet.dbg("Reinitializing Stream!", 2);
 				this.osw.write("<stream:stream to='" + this.to + "'" + appendXMLLang(this.getXMLLang()) + " xmlns='jabber:client' " + " xmlns:stream='http://etherx.jabber.org/streams'" + " version='1.0'" + ">");
 			}
-			PalladiumServlet.dbg("Sending stanza:" + out,2);
+			PalladiumServlet.dbg("Sending stanza: " + out,2);
 			this.osw.write(out);
 			this.osw.flush();
 		}
