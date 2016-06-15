@@ -247,7 +247,8 @@ public final class PalladiumServlet extends HttpServlet {
 									}
 									
 									// Check we have got to forward something to the XMPP server
-									if (rootNode.hasChildNodes())
+									// Invoke on session restart
+									if (rootNode.hasChildNodes() || sess.isReinit())
 										sess.sendNodes(rootNode.getChildNodes());
 									
 									else {
@@ -277,6 +278,7 @@ public final class PalladiumServlet extends HttpServlet {
 										String rType = attribs.getNamedItem("type").getNodeValue();
 										
 										if (rType.equals("terminate")) {
+											dbg("Session terminate requested", 2);
 											sess.terminate();
 											jresp.send(response);
 											

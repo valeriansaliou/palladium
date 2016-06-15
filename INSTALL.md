@@ -2,7 +2,7 @@
 
 ## How to install it?
 
-First, get the Palladium package on the download page. No need to unzip it, it is ready to be sent to our servlet manager: Tomcat. If you don't have any Tomcat server running, you will first need to install it.
+To get a compiled package, download the Palladium http-bind.war from the project root folder. It is ready to be sent to servlet container. Easiest way is to put it into webapps folder and restart Tomcat. If you don't have any Tomcat server running, you will first need to install it. This version was tested with Java7 and Tomcat7.
 
 It is recommended to proxy the connections between the client and your Tomcat server with an Apache, Lighttpd or nginx proxy to add HTTPS security and have a clean BOSH URL on standard ports (80 for HTTP and 443 for HTTPS).
 
@@ -14,7 +14,7 @@ Sometimes, Tomcat is running in security mode. You will have to deactivate it to
 
 ### What's the default Palladium URL?
 
-Once Tomcat is launched and Palladium is running, you can access your BOSH server at something like http://server.tld:8180/BOSH/ (the port number can change, depending of the Tomcat version you are using).
+Once Tomcat is launched and Palladium is running, you can access your BOSH server at something like http://server.tld:8180/http-bind (the port number can change, depending of the Tomcat version you are using).
 
 ### It seems Palladium doesn't close XMPP connections, why?
 
@@ -22,4 +22,4 @@ If you connect to XMPP servers which have invalid TLS certificates, it is possib
 
 ### How can I build Palladium from source code?
 
-The Palladium source code is hosted on our SVN repository. Get it, then install Tomcat 5.5 and Apache to build it. In the Palladium folder, execute the ant command to build it. Now, zip the ./build/ folder you get and change the package type from .zip to .war to get it ready for Tomcat usage.
+Get the Palladium source code from GIT repository. Then install Tomcat 7 to build it. In the Palladium folder, execute the "ant dist" command to build it. You should get http-bind.war file in your project root folder. Now it can be placed to Tomcat's webapps folder. In default Ubuntu setup, Tomcat would auto-deploy it.

@@ -86,6 +86,8 @@ public class Session {
 	
 	private static TransformerFactory tff = TransformerFactory.newInstance();
 	
+	private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	
 	private static String createSessionID(int len) {
 		String charlist = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
 		
@@ -179,7 +181,7 @@ public class Session {
 		this.setLastActive();
 		
 		try {
-			this.db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			this.db = this.dbf.newDocumentBuilder();
 		}
 		
 		catch (Exception e) { }
@@ -375,6 +377,7 @@ public class Session {
 					catch (SAXException sex) {
 						try {
 							// Stream closed?
+							PalladiumServlet.dbg("SAXException",2);
 							doc = db.parse(new InputSource(new StringReader("<stream:stream>" + inQueue)));
 							this.terminate();
 						}
@@ -629,7 +632,7 @@ public class Session {
 	// Reads from socket
 	private String readFromSocket(long rid) throws IOException {
 		String retval = "";
-		char buf[] = new char[16];
+		char buf[] = new char[2048];
 		int c = 0;
 		
 		Response r = this.getResponse(rid);
@@ -640,7 +643,7 @@ public class Session {
 				if (this.br.ready()) {
 					while (this.br.ready() && (c = this.br.read(buf, 0, buf.length)) >= 0)
 						retval += new String(buf, 0, c);
-						break;
+					break;
 				}
 				
 				else {
@@ -702,7 +705,7 @@ public class Session {
 				PalladiumServlet.dbg("Reinitializing Stream!", 2);
 				this.osw.write("<stream:stream to='" + this.to + "'" + appendXMLLang(this.getXMLLang()) + " xmlns='jabber:client' " + " xmlns:stream='http://etherx.jabber.org/streams'" + " version='1.0'" + ">");
 			}
-			
+			PalladiumServlet.dbg("Sending stanza: " + out,2);
 			this.osw.write(out);
 			this.osw.flush();
 		}
