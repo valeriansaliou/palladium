@@ -86,6 +86,8 @@ public class Session {
 	
 	private static TransformerFactory tff = TransformerFactory.newInstance();
 	
+	private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	
 	private static String createSessionID(int len) {
 		String charlist = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
 		
@@ -179,7 +181,7 @@ public class Session {
 		this.setLastActive();
 		
 		try {
-			this.db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			this.db = this.dbf.newDocumentBuilder();
 		}
 		
 		catch (Exception e) { }
