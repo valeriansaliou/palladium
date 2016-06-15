@@ -2,7 +2,7 @@
 
 ## How to install it?
 
-To get a compiled package, download the Palladium http-bind.war from the project root folder. It is ready to be sent to servlet container. Easiest way is to put it into wedapps folder and restart Tomcat. If you don't have any Tomcat server running, you will first need to install it. This version was tested with Java7 and Tomcat7.
+To get a compiled package, download the Palladium http-bind.war from the project root folder. It is ready to be sent to servlet container. Easiest way is to put it into webapps folder and restart Tomcat. If you don't have any Tomcat server running, you will first need to install it. This version was tested with Java7 and Tomcat7.
 
 It is recommended to proxy the connections between the client and your Tomcat server with an Apache, Lighttpd or nginx proxy to add HTTPS security and have a clean BOSH URL on standard ports (80 for HTTP and 443 for HTTPS).
 
