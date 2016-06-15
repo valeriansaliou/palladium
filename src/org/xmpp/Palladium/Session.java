@@ -53,22 +53,22 @@ public class Session {
 	public static final String DEFAULT_CONTENT = "text/xml; charset=utf-8";
 	
 	// Maximum inactivity period
-	public static final int MAX_INACTIVITY = 120;
+	public static final int MAX_INACTIVITY = 60;
 	
 	// Maximum number of simultaneous requests allowed
 	public static final int MAX_REQUESTS = 5;
 	
 	// Maximum time to wait for XMPP server replies
-	public static final int MAX_WAIT = 30;
+	public static final int MAX_WAIT = 300;
 	
 	// Shortest polling period
-	public static final int MIN_POLLING = 5;
+	public static final int MIN_POLLING = 2;
 	
 	// Sleep time
-	private static final int READ_TIMEOUT = 5;
+	private static final int READ_TIMEOUT = 1;
 	
 	// Socket timeout
-	private static final int SOCKET_TIMEOUT = 30000;
+	private static final int SOCKET_TIMEOUT = 6000;
 	
 	// Default XMPP port to connect
 	public static final int DEFAULT_XMPPPORT = 5222;
@@ -319,6 +319,7 @@ public class Session {
 					PalladiumServlet.dbg("inQueue: " + inQueue, 2);
 					streamFeatures = inQueue.length() > 0;
 				}
+
 				else {
 					PalladiumServlet.dbg("failed to get stream features", 2);
 					
@@ -339,6 +340,7 @@ public class Session {
 				
 				if (m.matches())
 					this.authid = m.group(1);
+
 				else {
 					PalladiumServlet.dbg("failed to get authid", 2);
 					
