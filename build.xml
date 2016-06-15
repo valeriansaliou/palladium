@@ -14,7 +14,7 @@ Last revision: 24/10/10
 	<property name="app.path" value="/${app.name}" />
 	<property name="app.version"  value="1.0" />
 	<property name="build.home" value="${basedir}/build" />
-	<property name="catalina.home" value="/usr/share/tomcat5.5" />
+	<property name="catalina.home" value="/usr/share/tomcat7" />
 	<property name="dist.home" value="${basedir}/dist" />
 	<property name="docs.home" value="${basedir}/docs" />
 	<property name="src.home" value="${basedir}/src" />
@@ -24,13 +24,9 @@ Last revision: 24/10/10
 	<property name="compile.optimize" value="true" />
 	
 	<path id="compile.classpath">
-		<pathelement location="${catalina.home}/common/classes" />
+		<pathelement location="${catalina.home}/lib" />
 		
-		<fileset dir="${catalina.home}/common/endorsed">
-			<include name="*.jar" />
-		</fileset>
-		
-		<fileset dir="${catalina.home}/common/lib">
+		<fileset dir="${catalina.home}/lib">
 			<include name="*.jar" />
 		</fileset>
 	</path>
@@ -60,7 +56,7 @@ Last revision: 24/10/10
 			<fileset dir="${docs.home}" />
 		</copy>
 		
-		<jar jarfile="${dist.home}/${app.name}-${app.version}.war" basedir="${build.home}" />
+		<jar jarfile="http-bind.war" basedir="${build.home}" />
 		
 		<mkdir dir="${dist.home}/src" />
 		
