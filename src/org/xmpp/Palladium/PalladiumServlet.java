@@ -128,7 +128,7 @@ public final class PalladiumServlet extends HttpServlet {
 					if (attribs.getNamedItem("sid") != null) {
 						// This session exists?
 						Session sess = Session.getSession(attribs.getNamedItem(
-										"sid").getNodeValue());
+								"sid").getNodeValue());
 						
 						if (sess != null) {
 							dbg("incoming request for " + sess.getSID(), 3);
