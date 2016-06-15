@@ -266,9 +266,9 @@ public final class PalladiumServlet extends HttpServlet {
 											return;
 										}
 										
+										// Last empty reply
+										sess.setLastPoll();
 									}
-									// Last empty reply
-									sess.setLastPoll();
 									
 									// Send the reply
 									
