@@ -26,11 +26,22 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.net.InetAddress;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -46,6 +57,79 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+
+class TLSSocketFactory extends SSLSocketFactory {
+
+    private SSLSocketFactory internalSSLSocketFactory;
+
+//    public TLSSocketFactory() throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
+    public TLSSocketFactory() {
+        super();
+        try{
+
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+
+            TrustManager tm = new X509TrustManager() {
+                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                }
+
+                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                }
+
+                public X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+            };
+
+            sslContext.init(null, new TrustManager[] { tm }, null);
+            internalSSLSocketFactory = sslContext.getSocketFactory();
+        }
+        catch (Exception e) { }
+    }
+
+    @Override
+    public String[] getDefaultCipherSuites() {
+        return internalSSLSocketFactory.getDefaultCipherSuites();
+    }
+
+    @Override
+    public String[] getSupportedCipherSuites() {
+        return internalSSLSocketFactory.getSupportedCipherSuites();
+    }
+
+    @Override
+    public Socket createSocket(Socket s, String host, int port, boolean autoClose) throws IOException {
+        return enableTLSOnSocket(internalSSLSocketFactory.createSocket(s, host, port, autoClose));
+    }
+
+    @Override
+    public Socket createSocket(String host, int port) throws IOException, UnknownHostException {
+        return enableTLSOnSocket(internalSSLSocketFactory.createSocket(host, port));
+    }
+
+    @Override
+    public Socket createSocket(String host, int port, InetAddress localHost, int localPort) throws IOException, UnknownHostException {
+        return enableTLSOnSocket(internalSSLSocketFactory.createSocket(host, port, localHost, localPort));
+    }
+
+    @Override
+    public Socket createSocket(InetAddress host, int port) throws IOException {
+        return enableTLSOnSocket(internalSSLSocketFactory.createSocket(host, port));
+    }
+
+    @Override
+    public Socket createSocket(InetAddress address, int port, InetAddress localAddress, int localPort) throws IOException {
+        return enableTLSOnSocket(internalSSLSocketFactory.createSocket(address, port, localAddress, localPort));
+    }
+
+    private Socket enableTLSOnSocket(Socket socket) {
+        if(socket != null && (socket instanceof SSLSocket)) {
+            ((SSLSocket)socket).setEnabledProtocols(new String[] {"TLSv1.1", "TLSv1.2"});
+        }
+        return socket;
+    }
+}
 
 // Session with HTTP Bind
 public class Session {
@@ -85,6 +169,8 @@ public class Session {
 	private static Hashtable sessions = new Hashtable();
 	
 	private static TransformerFactory tff = TransformerFactory.newInstance();
+	
+	private static TLSSocketFactory sslf = new TLSSocketFactory();
 	
 	private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	
@@ -413,14 +499,9 @@ public class Session {
 								};
 								
 								try {
-									SSLContext sc = SSLContext.getInstance("TLS");
-									sc.init(null, trustAllCerts, null);
-									
-									SSLSocketFactory sslFact = sc.getSocketFactory();
-									
 									SSLSocket tls;
 									
-									tls = (SSLSocket) sslFact.createSocket(this.sock, this.sock.getInetAddress().getHostName(), this.sock.getPort(), false);
+									tls = (SSLSocket)this.sslf.createSocket(this.sock, this.sock.getInetAddress().getHostName(), this.sock.getPort(), false);
 									tls.addHandshakeCompletedListener(new HandShakeFinished(this));
 									
 									this.pauseForHandshake = true;
