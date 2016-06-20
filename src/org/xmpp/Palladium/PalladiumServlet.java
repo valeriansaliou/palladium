@@ -527,7 +527,36 @@ public final class PalladiumServlet extends HttpServlet {
 			String title = APP_NAME;
 			String version = APP_VERSION;
 			
-			writer.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n\n<head>\n	<meta http-equiv=\"Content-Type\" content=\"application/xhtml+xml; charset=UTF-8\" />\n	<meta name=\"robots\" content=\"noindex, nofollow, nocache\" />\n	<title>" + title + "</title>\n	<style type=\"text/css\">\n		* {\n			margin: 0;\n			padding: 0;\n			color: black;\n		}\n		\n		body {\n			background-color: #e2e9ea;\n			font: 1em \"Lucida Grande\", helvetica, sans-serif;\n			margin: 0.8em;\n		}\n		\n		h1 {\n			border-bottom: 2px dotted black;\n			padding-bottom: 0.3em;\n			margin-bottom: 0.6em;\n			font-size: 2.5em;\n		}\n		\n		h3 {\n			font-size: 1.1em;\n		}\n		\n		p.sessions {\n			font-size: 1em;\n			margin-top: 1em;\n		}\n		\n		p.infos {\n			font-size: 0.7em;\n			position: absolute;\n			right: 0.8em;\n			bottom:0.8em;\n		}\n	</style>\n</head>\n\n<body>\n	<h1>" + title + "</h1>\n	<h3><a href=\"http://xmpp.org/extensions/xep-0124.html\">XEP-0124</a>: Bidirectional-streams Over Synchronous HTTP (BOSH)</h3>\n	<p class=\"sessions\">Active sessions: " + Session.getNumSessions() + "</p>\n	<p class=\"infos\">Powered by <a href=\"http://codingteam.net/project/palladium\">Palladium</a> " + version + ", based on <a href=\"http://blog.jwchat.org/jhb/\">JHB</a> v1.1.1</p>\n</body>\n\n</html>");
+			writer.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\""+
+				" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"+
+				"<html xmlns=\"http://www.w3.org/1999/xhtml\">\n\n<head>\n	"+
+				"<meta http-equiv=\"Content-Type\" content=\"application/xhtml+xml; charset=UTF-8\""+
+				" />\n	<meta name=\"robots\" content=\"noindex, nofollow, nocache\" />\n	"+
+				"<title>" + title + "</title>\n	<style type=\"text/css\">\n		* {\n"+
+				"			margin: 0;\n			padding: 0;\n"+
+				"			color: black;\n		}\n		\n"+
+				"		body {\n			background-color: #e2e9ea;\n"+
+				"			font: 1em \"Lucida Grande\", helvetica, sans-serif;\n"+
+				"			margin: 0.8em;\n		}\n		\n"+
+				"		h1 {\n			border-bottom: 2px dotted black;\n"+
+				"			padding-bottom: 0.3em;\n"+
+				"			margin-bottom: 0.6em;\n			font-size: 2.5em;\n"+
+				"		}\n		\n		h3 {\n"+
+				"			font-size: 1.1em;\n		}\n		\n"+
+				"		p.sessions {\n			font-size: 1em;\n"+
+				"			margin-top: 1em;\n		}\n		\n"+
+				"		p.infos {\n			font-size: 0.7em;\n"+
+				"			position: absolute;\n			right: 0.8em;\n"+
+				"			bottom:0.8em;\n		}\n	</style>\n</head>\n\n<body>\n"+
+				"	<h1>" + title + "</h1>\n	"+
+				"<h3><a href=\"http://xmpp.org/extensions/xep-0124.html\">XEP-0124</a>: "+
+				"Bidirectional-streams Over Synchronous HTTP (BOSH)</h3>\n"+
+				"	<p class=\"sessions\">Active sessions: " + Session.getNumSessions() + "</p>\n"+
+				"	<p class=\"sessions\">Heap size limit: " + Runtime.getRuntime().maxMemory() + "</p>\n"+
+				"	<p class=\"sessions\">Total heap size: " + Runtime.getRuntime().totalMemory() + "</p>\n"+
+				"	<p class=\"sessions\">Used heap size: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) + "</p>\n"+
+				"	<p class=\"infos\">Powered by <a href=\"http://codingteam.net/project/palladium\">Palladium</a> " + 
+				version + ", based on <a href=\"http://blog.jwchat.org/jhb/\">JHB</a> v1.1.1</p>\n</body>\n\n</html>");
 		}
 	
 	// Reply to OPTIONS requests
