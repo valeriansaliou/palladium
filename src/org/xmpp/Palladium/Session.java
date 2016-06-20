@@ -744,11 +744,12 @@ public class Session {
 				}
 			}
 			catch (RuntimeException e1) {
+				System.err.println("Error:\n" + e1);
 				
 				this.terminate();
 			}
 			catch (IOException e) {
-				System.err.println("Can't read from socket");
+				System.err.println("Can't read from socket:\n" + e);
 				
 				this.terminate();
 			}
