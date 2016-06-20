@@ -16,7 +16,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -744,8 +743,7 @@ public class Session {
 					}
 				}
 			}
-			catch (SocketException e1) {
-				System.err.println("SSLSocketReader unable to set socket timeout");
+			catch (RuntimeException e1) {
 				
 				this.terminate();
 			}
