@@ -143,7 +143,7 @@ public final class PalladiumServlet extends HttpServlet {
 							
 							else {
 								try {
-									rid = Integer.parseInt(attribs.getNamedItem("rid").getNodeValue());
+									rid = Long.parseLong(attribs.getNamedItem("rid").getNodeValue());
 								}
 								
 								catch (NumberFormatException e) {
@@ -345,7 +345,7 @@ public final class PalladiumServlet extends HttpServlet {
 						
 						else {
 							try {
-								rid = Integer.parseInt(attribs.getNamedItem("rid").getNodeValue());
+								rid = Long.parseLong(attribs.getNamedItem("rid").getNodeValue());
 							}
 							
 							catch (NumberFormatException e) {
