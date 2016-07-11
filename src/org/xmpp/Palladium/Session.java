@@ -270,7 +270,9 @@ public class Session {
 			this.db = this.dbf.newDocumentBuilder();
 		}
 		
-		catch (Exception e) { }
+		catch (Exception e) { 
+			this.terminate();
+		}
 		
 		// First, try connecting throught the 'route' attribute.
 		if (route != null && !route.equals("")) {
@@ -292,7 +294,9 @@ public class Session {
 					}
 				}
 				
-				catch (NumberFormatException nfe) { }
+				catch (NumberFormatException nfe) { 
+					this.terminate();
+				}
 				
 				route = route.substring(0, i);
 			}
@@ -305,6 +309,7 @@ public class Session {
 			
 			catch (Exception e) {
 				PalladiumServlet.dbg("Failed to open a socket using the 'route' attribute", 3);
+				this.terminate();
 			}
 		}
 		
@@ -468,7 +473,9 @@ public class Session {
 							this.terminate();
 						}
 						
-						catch (SAXException sex2) { }
+						catch (SAXException sex2) { 
+							this.terminate();
+						}
 					}
 				
 				if (doc != null)
@@ -580,6 +587,7 @@ public class Session {
 			catch (SAXException sex3) {
 				this.setReinit(false);
 				PalladiumServlet.dbg("failed to parse inQueue: " + inQueue + "\n" + sex3.toString(), 1);
+				this.terminate();
 				
 				return null;
 			}
@@ -771,6 +779,7 @@ public class Session {
 		
 		catch (Exception e) {
 			PalladiumServlet.dbg("XML.toString(Document): " + e, 1);
+			this.terminate();
 		}
 		
 		try {
@@ -785,6 +794,7 @@ public class Session {
 		
 		catch (IOException ioe) {
 			PalladiumServlet.dbg(this.sid + " failed to write to stream", 1);
+			this.terminate();
 		}
 		
 		return this;
