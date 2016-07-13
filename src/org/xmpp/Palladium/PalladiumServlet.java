@@ -321,7 +321,7 @@ public final class PalladiumServlet extends HttpServlet {
 								}
 							}
 							
-							catch (IOException ioe) {
+							catch (Exception ioe) {
 								sess.terminate();
 								
 								jresp.setAttribute("type", "terminate");
@@ -480,7 +480,7 @@ public final class PalladiumServlet extends HttpServlet {
 							jresp.send(response);
 						}
 						
-						catch (NumberFormatException nfe) {
+						catch (Exception e) {
 							response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 							
 							return;

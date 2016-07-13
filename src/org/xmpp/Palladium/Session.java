@@ -52,12 +52,12 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
 
 class TLSSocketFactory extends SSLSocketFactory {
 
@@ -166,7 +166,7 @@ public class Session {
 	// Session terminate
 	protected static final String SESS_TERM = "term";
 	
-	private static Hashtable sessions = new Hashtable();
+	private static Hashtable<String,Session> sessions = new Hashtable<String,Session>();
 	
 	private static TransformerFactory tff = TransformerFactory.newInstance();
 	
@@ -228,7 +228,7 @@ public class Session {
 	
 	private OutputStreamWriter osw;
 	
-	private TreeMap responses;
+	private TreeMap<Long,Response> responses;
 	
 	private String status = SESS_START;
 	
@@ -257,7 +257,8 @@ public class Session {
 	private Pattern stream10Pattern;
 	
 	// Create a new session and connect to the XMPP server
-	public Session(String to, String route, String xmllang) throws UnknownHostException, IOException {
+	public Session(String to, String route, String xmllang) 
+				throws UnknownHostException, IOException, ParserConfigurationException {
 		this.to = to;
 		this.xmllang = xmllang;
 		
@@ -271,7 +272,7 @@ public class Session {
 		}
 		
 		catch (Exception e) { 
-			this.terminate();
+			throw e;
 		}
 		
 		// First, try connecting throught the 'route' attribute.
@@ -295,7 +296,7 @@ public class Session {
 				}
 				
 				catch (NumberFormatException nfe) { 
-					this.terminate();
+					throw nfe;
 				}
 				
 				route = route.substring(0, i);
@@ -309,7 +310,7 @@ public class Session {
 			
 			catch (Exception e) {
 				PalladiumServlet.dbg("Failed to open a socket using the 'route' attribute", 3);
-				this.terminate();
+				throw e;
 			}
 		}
 		
@@ -364,7 +365,7 @@ public class Session {
 			sessions.put(this.sid, this);
 			
 			// Create list of responses
-			responses = new TreeMap();
+			responses = new TreeMap<Long,Response>();
 			
 			this.br = new BufferedReader(new InputStreamReader(this.sock.getInputStream(), "UTF-8"));
 			
@@ -378,6 +379,7 @@ public class Session {
 		}
 		
 		catch (IOException ioe) {
+			this.terminate();
 			throw ioe;
 		}
 	}
@@ -886,6 +888,9 @@ public class Session {
 		}
 		
 		sessions.remove(this.sid);
+		
+		while (this.responses.size() > 0)
+			this.responses.remove(this.responses.firstKey());
 	}
 
 	// The secure to set

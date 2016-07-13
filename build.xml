@@ -41,8 +41,9 @@ Last revision: 24/10/10
 	<target name="compile" depends="prepare" description="Compile Java sources">
 		<mkdir dir="${build.home}/WEB-INF/classes" />
 		
-		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}">
+		<javac includeantruntime="false" srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}">
 			<classpath refid="compile.classpath" />
+			<compilerarg value="-Xlint:unchecked"/>
 		</javac>
 		
 		<copy todir="${build.home}/WEB-INF/classes">
