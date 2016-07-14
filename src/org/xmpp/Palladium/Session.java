@@ -389,6 +389,9 @@ public class Session {
 		while (this.responses.size() > 0 && this.responses.size() >= Session.MAX_REQUESTS)
 			this.responses.remove(this.responses.firstKey());
 		
+		// trying to compact memory
+		this.responses = (TreeMap<Long,Response>)this.responses.clone();
+		
 		return (Response) this.responses.put(new Long(r.getRID()), r);
 	}
 
