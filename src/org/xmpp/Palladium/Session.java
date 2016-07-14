@@ -390,7 +390,7 @@ public class Session {
 			this.responses.remove(this.responses.firstKey());
 		
 		// trying to compact memory
-		this.responses = (TreeMap<Long,Response>)this.responses.clone();
+		this.responses = new TreeMap<Long,Response>(this.responses);
 		
 		return (Response) this.responses.put(new Long(r.getRID()), r);
 	}
