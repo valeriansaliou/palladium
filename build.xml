@@ -1,9 +1,9 @@
 <!--
 
-PALLADIUM v1.4
+PALLADIUM v1.5.1
 Description: build file to use with Ant and Tomcat (5.5 is better to compile that)
-Authors: Stefan Strigler, Vanaryon
-Last revision: 24/10/10
+Authors: Stefan Strigler, Vanaryon, Tim Bortnik
+Last revision: 18/07/2016
 
 -->
 
@@ -12,7 +12,7 @@ Last revision: 24/10/10
 	<property file="${user.home}/build.properties" />
 	<property name="app.name" value="JabberHTTPBind" />
 	<property name="app.path" value="/${app.name}" />
-	<property name="app.version"  value="1.0" />
+	<property name="app.version"  value="1.5.1" />
 	<property name="build.home" value="${basedir}/build" />
 	<property name="catalina.home" value="/usr/share/tomcat7" />
 	<property name="dist.home" value="${basedir}/dist" />
