@@ -9,7 +9,8 @@
 #
 
 # Tomcat version
-JT_VERSION="9.2.17.v20160517"
+TC_VERSION="7.0.70"
+TC_MAJOR=${TC_VERSION:0:1}
 
 # Palladium version
 PL_VERSION="1.5.1"
@@ -19,13 +20,14 @@ rm -rf ./opt
 mkdir ./opt
 rm -f *.deb
 
-# Download and untar Jetty
-curl "http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/${JT_VERSION}/jetty-distribution-${JT_VERSION}.tar.gz" | tar -zxv
+# Download and untar Tomcat
+curl "http://archive.apache.org/dist/tomcat/tomcat-${TC_MAJOR}/v${TC_VERSION}/bin/apache-tomcat-${TC_VERSION}.tar.gz" | tar -zxv
+mv ./apache-tomcat-${TC_VERSION} ./opt/palladium
 
 # Move files
-mv ./jetty-distribution-${JT_VERSION} ./opt/palladium
 cp ../http-bind.war ./opt/palladium/webapps
-cp ./ini/start.ini ./opt/palladium
+cp ./conf/server.xml ./opt/palladium/conf
+cp ./conf/setenv.sh ./opt/palladium/bin
 
     fpm -n palladium \
         -v ${PL_VERSION} \
