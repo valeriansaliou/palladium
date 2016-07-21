@@ -17,8 +17,18 @@ PL_VERSION="1.5.1"
 
 # Cleanup
 rm -rf ./opt
-mkdir ./opt
+rm -rf ./var
+rm -rf ./tmp
 rm -f *.deb
+
+# Create directory structure
+mkdir ./opt
+mkdir ./tmp
+mkdir ./var
+mkdir ./var/log
+mkdir ./var/log/palladium
+mkdir ./var/cache
+mkdir ./var/cache/palladium
 
 # Download and untar Tomcat
 curl "http://archive.apache.org/dist/tomcat/tomcat-${TC_MAJOR}/v${TC_VERSION}/bin/apache-tomcat-${TC_VERSION}.tar.gz" | tar -zxv
@@ -27,8 +37,18 @@ mv ./apache-tomcat-${TC_VERSION} ./opt/palladium
 # Move files
 cp ../http-bind.war ./opt/palladium/webapps
 cp ./conf/server.xml ./opt/palladium/conf
-cp ./conf/setenv.sh ./opt/palladium/bin
 
+# Symlink work, temp and logs
+rm -rf ./opt/palladium/work
+ln -s  ../../var/cache/palladium ./opt/palladium/work
+
+rm -rf ./opt/palladium/temp
+ln -s  ../../tmp                 ./opt/palladium/temp
+
+rm -rf ./opt/palladium/logs
+ln -s  ../../var/log/palladium   ./opt/palladium/logs
+
+# Create DEB
     fpm -n palladium \
         -v ${PL_VERSION} \
         -a all \
@@ -40,7 +60,12 @@ cp ./conf/setenv.sh ./opt/palladium/bin
         -s dir \
         --description "Palladium is an open source software implementation of the XEP-0124: Bidirectional-streams Over Synchronous HTTP (BOSH) protocol" \
         --url 'http://codingteam.net/project/palladium' \
-        opt
+        --deb-user "palladium" \
+        --deb-group "palladium" \
+        --deb-upstart ./conf/palladium.conf \
+        opt var
 
 # Cleanup
 rm -rf ./opt
+rm -rf ./var
+rm -rf ./tmp
