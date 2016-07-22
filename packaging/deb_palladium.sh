@@ -63,6 +63,7 @@ ln -s  ../../var/log/palladium   ./opt/palladium/logs
         --deb-user "palladium" \
         --deb-group "palladium" \
         --deb-upstart ./conf/palladium.conf \
+        --before-install ./conf/deb_before_install.sh \
         opt var
 
 # Cleanup
