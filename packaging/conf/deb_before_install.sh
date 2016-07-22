@@ -10,6 +10,6 @@ if ! id "palladium" > /dev/null 2>&1 ; then
 	"palladium"
 fi
 
-chown -R palladium /opt/palladium
-chown -R palladium /var/log/palladium
-chown -R palladium /var/cache/palladium
+chown -R palladium /opt/palladium       2> /dev/null || true
+chown -R palladium /var/log/palladium   2> /dev/null || true
+chown -R palladium /var/cache/palladium 2> /dev/null || true
