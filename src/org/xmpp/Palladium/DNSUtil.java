@@ -19,7 +19,7 @@ public class DNSUtil {
 	// Set the DNS environment variable
 	static {
 		try {
-			Hashtable env = new Hashtable();
+			Hashtable<String,String> env = new Hashtable<String,String>();
 			env.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
 			context = new InitialDirContext(env);
 		}
